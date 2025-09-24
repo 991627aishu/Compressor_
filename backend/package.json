@@ -1,0 +1,26 @@
+{
+  "name": "project_compressor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "pdf-lib": "^1.17.1",
+    "sharp": "^0.34.3",
+    "node-cron": "^3.0.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express-session": "^1.17.3",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1"
+  }
+}

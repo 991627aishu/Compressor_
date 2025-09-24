@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultra Compressor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-accent: #0099ff;
+      --primary-accent-dark: #0077cc;
+      --background-color: #0f172a;
+      --form-background: rgba(30, 41, 59, 0.5);
+      --text-color: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(51, 65, 85, 0.7);
+      --success-color: #22c55e;
+      --error-color: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Background decorative elements */
+    body::before, body::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+    }
+
+    body::before {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 153, 255, 0.3), transparent 70%);
+      top: 10%;
+      left: 15%;
+      animation: move-glow1 15s infinite alternate;
+    }
+
+    body::after {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.25), transparent 70%);
+      bottom: 15%;
+      right: 10%;
+      animation: move-glow2 18s infinite alternate;
+    }
+
+    @keyframes move-glow1 {
+      from { transform: translate(0, 0); }
+      to { transform: translate(50px, 80px); }
+    }
+    @keyframes move-glow2 {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-60px, -40px); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .user-info {
+      background: var(--form-background);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(20px);
+      display: none;
+    }
+
+    .user-info p {
+      color: var(--primary-accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .logout-btn {
+      background: var(--error-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .compress-card {
+      background: var(--form-background);
+      border: 1px solid var(--border-color);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      animation: fade-in 0.8s ease-out;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: var(--text-color);
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--primary-accent);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
+    }
+
+    .drop-zone.dragover {
+      background: rgba(0, 153, 255, 0.1);
+      border-color: var(--primary-accent-dark);
+      color: var(--primary-accent);
+    }
+
+    .drop-zone input {
+      display: none;
+    }
+
+    .drop-zone .hint {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .file-name {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .target-size-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 0.875rem 1rem;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .target-size-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .target-size-input:focus {
+      outline: none;
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(0, 153, 255, 0.3);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 153, 255, 0.25);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #result {
+      margin-top: 1.5rem;
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .message.success {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--success-color);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .message.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error-color);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.75rem;
+      background: var(--success-color);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #16a34a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-accent), #4f46e5);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .loading .submit-btn::after {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid white;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .compress-card {
+        padding: 1.5rem;
+      }
+      
+      .header h1 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Ultra Compressor</h1>
+      <p>Compress JPG, PNG, or PDF easily</p>
+      
+      <div class="user-info" id="userInfo">
+        <p>Welcome, <span id="userName"></span>!</p>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    
+    <div class="compress-card">
+      <form id="compressForm" enctype="multipart/form-data" novalidate>
+        <div class="input-group">
+          <label>Upload File</label>
+          <div class="drop-zone" id="dropZone">
+            <p><strong>Drag & Drop</strong> your file here — or click to browse</p>
+            <div class="hint">Allowed: JPG, PNG, PDF (any size)</div>
+            <input type="file" name="file" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" />
+            <div class="file-name" id="fileName" hidden></div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="targetSizeKB">Target size (KB, optional)</label>
+          <input type="number" id="targetSizeKB" name="targetSizeKB" class="target-size-input" placeholder="Enter target size in KB" min="1" inputmode="numeric" />
+        </div>
+        
+        <button type="submit" class="submit-btn">Compress</button>
+      </form>
+      
+      <div id="result">
+        <div class="progress-bar"><div class="progress-bar-inner" id="progressInner">0%</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const fileNameEl = document.getElementById('fileName');
+const compressBtn = document.querySelector('.submit-btn');
+const result = document.getElementById('result');
+const userInfo = document.getElementById('userInfo');
+const userName = document.getElementById('userName');
+const compressCard = document.querySelector('.compress-card');
+
+// Check authentication on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  
+  if (!token || !user) {
+    // Redirect to login if not authenticated
+    window.location.href = '/login.html';
+    return;
+  }
+  
+  // Show user info
+  const userData = JSON.parse(user);
+  userName.textContent = userData.name;
+  userInfo.style.display = 'block';
+});
+
+// Logout function
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}
+
+function setLoading(isLoading) {
+  compressCard.classList.toggle('loading', isLoading);
+  compressBtn.disabled = isLoading;
+}
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { 
+  e.preventDefault(); 
+  dropZone.classList.add('dragover'); 
+});
+dropZone.addEventListener('dragleave', e => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) {
+    fileInput.files = e.dataTransfer.files;
+    updateChosenFile(e.dataTransfer.files);
+  }
+});
+
+fileInput.addEventListener('change', () => updateChosenFile(fileInput.files));
+
+function updateChosenFile(files) {
+  const f = files[0];
+  if (!f) { 
+    fileNameEl.hidden = true; 
+    return; 
+  }
+  fileNameEl.textContent = `${f.name} — ${(f.size/1024).toFixed(1)} KB`;
+  fileNameEl.hidden = false;
+}
+
+function showProgress(percent, progressInner) {
+  progressInner.style.width = percent + '%';
+  progressInner.textContent = Math.floor(percent) + '%';
+}
+
+function showDownload(url, name) {
+  result.innerHTML = `<div class="message success">✔️ Compression successful!</div>
+                      <a class="download-btn" href="${url}" download="compressed_${name}">Download File</a>`;
+}
+
+compressBtn.addEventListener('click', e => {
+  e.preventDefault();
+  if (!fileInput.files[0]) return alert("Select a file");
+
+  setLoading(true);
+
+  // Reset progress bar
+  result.innerHTML = '<div class="progress-bar"><div class="progress-bar-inner" id="progressInner">0%</div></div>';
+  const progressInner = document.getElementById('progressInner');
+
+  const file = fileInput.files[0];
+  const targetKB = document.getElementById('targetSizeKB').value || 0;
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('targetSizeKB', targetKB);
+
+  let progress = 0;
+  const maxFake = 95 + Math.random() * 4; // 95–99%
+  let serverCompleted = false;
+
+  // Smarter fake progress
+  function advanceFakeProgress() {
+    if (serverCompleted) return;
+
+    const remaining = maxFake - progress;
+    let increment = remaining > 10 ? Math.random()*2+1 : Math.random()*0.5+0.1;
+    progress += increment;
+    if (progress > maxFake) progress = maxFake;
+
+    showProgress(progress, progressInner);
+
+    if (progress < maxFake) setTimeout(advanceFakeProgress, 150);
+  }
+
+  advanceFakeProgress();
+
+  // Actual compression request
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/compress');
+  xhr.responseType = 'blob';
+  
+  // Add authentication header
+  const token = localStorage.getItem('token');
+  if (token) {
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+  }
+
+  xhr.onload = () => {
+    serverCompleted = true;
+    setLoading(false);
+    showProgress(100, progressInner);
+    if (xhr.status === 200) {
+      const url = URL.createObjectURL(xhr.response);
+      showDownload(url, file.name);
+    } else if (xhr.status === 401) {
+      alert('Session expired. Please login again.');
+      logout();
+    } else {
+      result.innerHTML = '<div class="message error">Compression failed! Please try again.</div>';
+    }
+  };
+
+  xhr.onerror = () => {
+    serverCompleted = true;
+    setLoading(false);
+    result.innerHTML = '<div class="message error">Network error during compression!</div>';
+  };
+
+  xhr.send(formData);
+});
+</script>
+
+</body>
+</html>

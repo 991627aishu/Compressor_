@@ -1,0 +1,73 @@
+{
+  "aishwarya.ns2006kkp@gmail.com": {
+    "id": "user_1758736310435",
+    "name": "rtyuidjk",
+    "email": "aishwarya.ns2006kkp@gmail.com",
+    "mobile_number": "875639046380",
+    "address": "khbop;f",
+    "password": "$2a$12$oHSHkDXORYxQgj74i9hkAOvJt4zcr4K7wgWz6.Z7v1B0dsiuXKNUm",
+    "is_email_verified": false,
+    "created_at": "2025-09-24T17:51:50.435Z"
+  },
+  "aiswarya.ns2006kkp@gmail.com": {
+    "id": "user_1758736379603",
+    "name": "rtyuidjk",
+    "email": "aiswarya.ns2006kkp@gmail.com",
+    "mobile_number": "875639046380",
+    "address": "khbop;f",
+    "password": "$2a$12$4TzvAiILeTFzzqCG/pzpFeoo5kLi7SeEWWuKKIHcJSPb44KMwAi4W",
+    "is_email_verified": false,
+    "created_at": "2025-09-24T17:52:59.603Z"
+  },
+  "nsaishwarya777@gmail.com": {
+    "id": "user_1758736619313",
+    "name": "Aishu",
+    "email": "nsaishwarya777@gmail.com",
+    "mobile_number": "9864637828",
+    "address": "jhdill",
+    "password": "$2a$12$li8dnOBLlRRqMSdanH7YuuyWI3aCS3XISsLC3hurR.sfBk63TQ9QS",
+    "is_email_verified": true,
+    "created_at": "2025-09-24T17:56:59.313Z",
+    "verified_at": "2025-09-24T17:57:23.654Z",
+    "last_login": "2025-09-24T17:57:48.884Z",
+    "password_reset_at": "2025-09-24T17:58:27.691Z"
+  },
+  "nsnaishwaryabtech24@rvu.edu.in": {
+    "id": "user_1758737113500",
+    "name": "Aishwarya",
+    "email": "nsnaishwaryabtech24@rvu.edu.in",
+    "mobile_number": "8123493768",
+    "address": "tuodjs",
+    "password": "$2a$12$nPPyrlG5.1jmOpeBoG.hF.6Pt/01yQrU.xwnYVUP71gAPO7PCyq9C",
+    "is_email_verified": true,
+    "created_at": "2025-09-24T18:05:13.500Z",
+    "verified_at": "2025-09-24T18:05:49.632Z",
+    "last_login": "2025-09-24T18:18:42.433Z"
+  },
+  "raghavendrak.bsc23@rvu.edu.in": {
+    "id": "user_1758738153086",
+    "name": "Raghavendra",
+    "email": "raghavendrak.bsc23@rvu.edu.in",
+    "mobile_number": "9380287770",
+    "address": "yheidd",
+    "password": "$2a$12$IXg6ntHkszEQDURkjDeV6elMAUt6NT2VD4g5Nilma2RZM4cab3juW",
+    "is_email_verified": true,
+    "created_at": "2025-09-24T18:22:33.086Z",
+    "verified_at": "2025-09-24T18:23:00.991Z",
+    "last_login": "2025-09-24T18:28:58.788Z",
+    "password_reset_at": "2025-09-24T18:28:47.645Z"
+  },
+  "nsaishwarya123@gmail.com": {
+    "id": "user_1758738734392",
+    "name": "A",
+    "email": "nsaishwarya123@gmail.com",
+    "mobile_number": "8123493768",
+    "address": "iyfcbjj",
+    "password": "$2a$12$pHREnUHIQ3iT8C6spC0ECubyaH.bhix/b3ZpT7Y/R.aD2/.hp6.SS",
+    "is_email_verified": true,
+    "created_at": "2025-09-24T18:32:14.392Z",
+    "verified_at": "2025-09-24T18:32:50.569Z",
+    "last_login": "2025-09-24T18:34:21.886Z",
+    "password_reset_at": "2025-09-24T18:35:40.639Z"
+  }
+}

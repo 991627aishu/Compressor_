@@ -30,7 +30,18 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    console.log('✅ User authenticated:', user.email);
+    // Check if email is verified for protected routes
+    if (!user.is_email_verified) {
+      console.log('❌ Email not verified for user:', user.email);
+      return res.status(403).json({
+        success: false,
+        message: 'Please verify your email before accessing this feature. Check your inbox for the verification code.',
+        requires_verification: true,
+        email: user.email
+      });
+    }
+
+    console.log('✅ User authenticated and verified:', user.email);
     req.user = user;
     next();
 

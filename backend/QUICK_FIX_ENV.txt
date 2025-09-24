@@ -1,0 +1,19 @@
+# Copy this content to your .env file to fix the database issue
+
+# Replace this with your ACTUAL Supabase database URL
+# Get it from: https://supabase.com/dashboard → Settings → Database → Connection string
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@db.YOUR_PROJECT_REF.supabase.co:5432/postgres
+
+# JWT Secret for authentication
+JWT_SECRET=your-super-secret-jwt-key-change-in-production-ultra-compressor-2024
+
+# Server port
+PORT=5000
+
+# Instructions:
+# 1. Go to https://supabase.com
+# 2. Create a new project
+# 3. Get your database URL from Settings → Database
+# 4. Replace YOUR_PASSWORD and YOUR_PROJECT_REF in the DATABASE_URL above
+# 5. Save this as .env file in the backend/ directory
+# 6. Restart your server

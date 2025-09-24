@@ -51,6 +51,7 @@ const upload = multer({ storage });
 
 // ✅ Upload route
 router.post('/', upload.single('file'), (req, res) => {
+  const uploadTime = new Date().toLocaleString();
   console.log('📤 File upload attempt started');
   console.log('👤 User:', req.user ? `ID: ${req.user.id}, Email: ${req.user.email}` : 'Anonymous');
   
@@ -59,19 +60,33 @@ router.post('/', upload.single('file'), (req, res) => {
     return res.status(400).json({ error: 'No file uploaded' });
   }
 
-  console.log(`📥 File uploaded successfully:`);
+  // Calculate file size in human readable format
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  console.log(`📥 File uploaded successfully at ${uploadTime}:`);
   console.log(`   📄 Original name: ${req.file.originalname}`);
   console.log(`   📁 Filename: ${req.file.filename}`);
-  console.log(`   📏 Size: ${req.file.size} bytes`);
+  console.log(`   📏 Size: ${req.file.size} bytes (${formatFileSize(req.file.size)})`);
   console.log(`   🗂️  MIME type: ${req.file.mimetype}`);
   console.log(`   📍 Path: ${req.file.path}`);
+  console.log(`   ⏰ Upload time: ${uploadTime}`);
+  console.log(`   ⏳ Auto-delete in: 20 minutes`);
   
   res.status(200).json({
     message: 'File uploaded successfully',
     filename: req.file.filename,
     path: req.file.path,
     size: req.file.size,
-    mimetype: req.file.mimetype
+    sizeFormatted: formatFileSize(req.file.size),
+    mimetype: req.file.mimetype,
+    uploadTime: uploadTime,
+    autoDeleteIn: '20 minutes'
   });
 });
 

@@ -1,0 +1,90 @@
+{
+  "aishwarya.ns2006kkp@gmail.com_verification": {
+    "email": "aishwarya.ns2006kkp@gmail.com",
+    "otp": "330068",
+    "type": "verification",
+    "created_at": "2025-09-24T17:52:16.073Z",
+    "expires_at": "2025-09-24T18:02:16.073Z",
+    "used": false
+  },
+  "aiswarya.ns2006kkp@gmail.com_verification": {
+    "email": "aiswarya.ns2006kkp@gmail.com",
+    "otp": "228635",
+    "type": "verification",
+    "created_at": "2025-09-24T17:52:59.606Z",
+    "expires_at": "2025-09-24T18:02:59.606Z",
+    "used": false
+  },
+  "nsaishwarya777@gmail.com_verification": {
+    "email": "nsaishwarya777@gmail.com",
+    "otp": "772640",
+    "type": "verification",
+    "created_at": "2025-09-24T17:56:59.315Z",
+    "expires_at": "2025-09-24T18:06:59.315Z",
+    "used": true
+  },
+  "nsaishwarya777@gmail.com_password_reset": {
+    "email": "nsaishwarya777@gmail.com",
+    "otp": "445072",
+    "type": "password_reset",
+    "created_at": "2025-09-24T18:07:59.917Z",
+    "expires_at": "2025-09-24T18:17:59.917Z",
+    "used": false
+  },
+  "nsnaishwaryabtech24@rvu.edu.in_verification": {
+    "email": "nsnaishwaryabtech24@rvu.edu.in",
+    "otp": "631369",
+    "type": "verification",
+    "created_at": "2025-09-24T18:05:13.508Z",
+    "expires_at": "2025-09-24T18:15:13.508Z",
+    "used": true
+  },
+  "nsnaishwaryabtech24@rvu.edu.in_password_reset": {
+    "email": "nsnaishwaryabtech24@rvu.edu.in",
+    "otp": "126395",
+    "type": "password_reset",
+    "created_at": "2025-09-24T18:20:15.289Z",
+    "expires_at": "2025-09-24T18:30:15.289Z",
+    "used": false
+  },
+  "NSNAISHWARYABTECH24@RVU.EDU.IN_password_reset": {
+    "email": "NSNAISHWARYABTECH24@RVU.EDU.IN",
+    "otp": "750933",
+    "type": "password_reset",
+    "created_at": "2025-09-24T18:20:19.419Z",
+    "expires_at": "2025-09-24T18:30:19.419Z",
+    "used": false
+  },
+  "raghavendrak.bsc23@rvu.edu.in_verification": {
+    "email": "raghavendrak.bsc23@rvu.edu.in",
+    "otp": "320078",
+    "type": "verification",
+    "created_at": "2025-09-24T18:22:33.091Z",
+    "expires_at": "2025-09-24T18:32:33.091Z",
+    "used": true
+  },
+  "raghavendrak.bsc23@rvu.edu.in_password_reset": {
+    "email": "raghavendrak.bsc23@rvu.edu.in",
+    "otp": "939653",
+    "type": "password_reset",
+    "created_at": "2025-09-24T18:28:20.986Z",
+    "expires_at": "2025-09-24T18:38:20.986Z",
+    "used": true
+  },
+  "nsaishwarya123@gmail.com_verification": {
+    "email": "nsaishwarya123@gmail.com",
+    "otp": "171987",
+    "type": "verification",
+    "created_at": "2025-09-24T18:32:14.663Z",
+    "expires_at": "2025-09-24T18:42:14.663Z",
+    "used": true
+  },
+  "nsaishwarya123@gmail.com_password_reset": {
+    "email": "nsaishwarya123@gmail.com",
+    "otp": "777907",
+    "type": "password_reset",
+    "created_at": "2025-09-24T18:35:04.295Z",
+    "expires_at": "2025-09-24T18:45:04.295Z",
+    "used": true
+  }
+}

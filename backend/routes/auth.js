@@ -163,6 +163,19 @@ router.post('/login', async (req, res) => {
     }
     console.log('✅ Password verified successfully');
 
+    // Check email verification status
+    console.log('📧 Checking email verification status...');
+    if (!user.is_email_verified) {
+      console.log('❌ Email not verified for user:', email);
+      return res.status(403).json({
+        success: false,
+        message: 'Please verify your email before logging in. Check your inbox for the verification code.',
+        requires_verification: true,
+        email: user.email
+      });
+    }
+    console.log('✅ Email is verified');
+
     // Update last login
     console.log('📅 Updating last login timestamp...');
     await database.updateUserLastLogin(user.id);
@@ -254,39 +267,63 @@ router.get('/profile', async (req, res) => {
 router.post('/verify-email', async (req, res) => {
   try {
     const { email, otp } = req.body;
+    console.log('🔄 Email verification request for:', email, 'OTP:', otp);
 
     if (!email || !otp) {
+      console.log('❌ Missing email or OTP');
       return res.status(400).json({
         success: false,
         message: 'Email and OTP are required'
       });
     }
 
+    console.log('🔍 Verifying OTP in database...');
+    
     // Verify OTP
     const otpRecord = await database.verifyOTP(email, otp, 'verification');
     if (!otpRecord) {
+      console.log('❌ Invalid or expired OTP for email:', email);
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired OTP'
+        message: 'Invalid or expired OTP. Please check the code and try again.'
       });
     }
 
+    console.log('✅ OTP verified successfully for email:', email);
+
     // Mark OTP as used
+    console.log('🔐 Marking OTP as used...');
     await database.markOTPAsUsed(email, otp, 'verification');
+    console.log('✅ OTP marked as used');
 
     // Update user email verification status
+    console.log('📧 Updating email verification status...');
     await database.updateEmailVerification(email);
+    console.log('✅ Email verification status updated');
 
+    console.log('🎉 Email verification completed successfully for:', email);
     res.json({
       success: true,
       message: 'Email verified successfully'
     });
 
   } catch (error) {
-    console.error('Email verification error:', error);
+    console.error('❌ Email verification error:', error);
+    
+    // Provide specific error messages based on error type
+    let errorMessage = 'Internal server error during email verification';
+    
+    if (error.message.includes('Database not connected')) {
+      errorMessage = 'Database connection failed. Please check your configuration.';
+    } else if (error.message.includes('ENOTFOUND')) {
+      errorMessage = 'Database connection failed. Please check your database URL.';
+    } else if (error.message.includes('connection timeout')) {
+      errorMessage = 'Database connection timeout. Please try again.';
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Internal server error during email verification'
+      message: errorMessage
     });
   }
 });
@@ -295,6 +332,7 @@ router.post('/verify-email', async (req, res) => {
 router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
+    console.log('🔄 Forgot password request for email:', email);
 
     if (!email) {
       return res.status(400).json({
@@ -303,26 +341,35 @@ router.post('/forgot-password', async (req, res) => {
       });
     }
 
+    console.log('🔍 Checking if user exists in database...');
+    
     // Check if user exists
     const user = await database.getUserByEmail(email);
     if (!user) {
+      console.log('❌ User not found for email:', email);
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
 
+    console.log('✅ User found:', user.email, 'ID:', user.id);
+
     // Generate and send OTP
+    console.log('🔐 Generating password reset OTP...');
     const otp = generateOTP();
     await database.createOTP(email, otp, 'password_reset');
-    
+    console.log('✅ OTP created and stored');
+
     try {
+      console.log('📤 Sending password reset email...');
       await sendEmail(email, otp, 'password_reset');
+      console.log('✅ Password reset email sent successfully');
     } catch (emailError) {
-      console.error('Email sending failed:', emailError);
+      console.error('❌ Email sending failed:', emailError);
       return res.status(500).json({
         success: false,
-        message: 'Failed to send reset email'
+        message: 'Failed to send reset email. Please try again later.'
       });
     }
 
@@ -332,10 +379,22 @@ router.post('/forgot-password', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Forgot password error:', error);
+    console.error('❌ Forgot password error:', error);
+    
+    // Provide specific error messages based on error type
+    let errorMessage = 'Internal server error during password reset';
+    
+    if (error.message.includes('Database not connected')) {
+      errorMessage = 'Database connection failed. Please check your configuration.';
+    } else if (error.message.includes('ENOTFOUND')) {
+      errorMessage = 'Database connection failed. Please check your database URL.';
+    } else if (error.message.includes('connection timeout')) {
+      errorMessage = 'Database connection timeout. Please try again.';
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Internal server error during password reset'
+      message: errorMessage
     });
   }
 });
